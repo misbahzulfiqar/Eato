@@ -1,7 +1,11 @@
 import { getTokenForPath } from './authTokens';
 import type { Customer, MenuItem, Order, OrderStatus, Review, Restaurant, Role } from './types/eato';
 
-const API = '/api';
+/** Dev: Vite proxy uses `/api`. Production: set `VITE_API_ORIGIN` in Vercel (e.g. `https://your-api.example.com`, no trailing slash). */
+const API = (() => {
+  const origin = import.meta.env.VITE_API_ORIGIN?.trim().replace(/\/$/, '');
+  return origin ? `${origin}/api` : '/api';
+})();
 
 /** Login/register must not send an existing session token (wrong role could confuse the API). */
 function isPublicAuthPath(path: string) {

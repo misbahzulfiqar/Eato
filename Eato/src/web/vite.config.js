@@ -10,9 +10,8 @@ export default defineConfig({
     },
   },
   build: {
-    // Prevent copying `public/` images into `dist/` output.
-    // (Your app will still use `/...` paths from `public/` while running in dev.)
-    copyPublicDir: false,
+    // Required for production: `/LOGO.png` etc. must exist in `dist/`.
+    copyPublicDir: true,
   },
   server: { port: 3000, proxy: { '/api': { target: 'http://localhost:5000', changeOrigin: true } } }
 });
